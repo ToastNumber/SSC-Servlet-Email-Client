@@ -7,10 +7,20 @@
 <title>Servlet Email Client</title>
 </head>
 <body>
+	<%
+		String username = request.getParameter("username");
+		if (username == null) username = "";
+		
+		String password = request.getParameter("password");
+		if (password == null) password = "";
+	%>
+
 	<form action="LoginController" method="get">
-		<input name="username" placeholder="asd@xyz.com" value="k.m.playground55@googlemail.com"><br> 
-		<input type="password" name="password" placeholder="password" value="qweqwe123$"><br>
-		<input type="submit" value="Login">
+		<input name="username" placeholder="asd@xyz.com"
+			value=<%= username %> ><br> <input
+			type="password" name="password" placeholder="password"
+			value=<%= password %> ><br> <input type="submit"
+			value="Login">
 	</form>
 </body>
 </html>

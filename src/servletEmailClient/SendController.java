@@ -34,8 +34,11 @@ public class SendController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
 		if (session.isNew()) {
-			response.getWriter().println("Session timeout.");
+			out.println("Session timeout.");
 			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
 			rd.include(request, response);
 		} else {
@@ -49,9 +52,6 @@ public class SendController extends HttpServlet {
 			Model m = new Model();
 			boolean loginSuccessful = m.setupSession(username, password);
 
-			response.setContentType("text/html");
-			PrintWriter out = response.getWriter();
-			
 			if (loginSuccessful) {
 				try {
 					// Set up the message to send

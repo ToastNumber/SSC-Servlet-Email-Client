@@ -43,6 +43,9 @@ public class LoginController extends HttpServlet {
 		if (loginSuccessful) {
 			// Get the session
 			HttpSession session = request.getSession(true);
+			// Set the timeout to 5 minutes
+			session.setMaxInactiveInterval(5 * 60);
+			
 			// Then set the user name and password for the session
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
