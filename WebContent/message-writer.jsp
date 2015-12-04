@@ -7,7 +7,7 @@
 <title>Compose Email</title>
 </head>
 <body>
-	<form action="SendController" method="get">
+	<form action="${pageContext.request.contextPath}/SendController" method="post">
 		<input name="to" placeholder="To"> <br>
 		<input name="subject" placeholder="Subject"> <br> 
 		<textarea name="content" placeholder="Put the email content here"></textarea>

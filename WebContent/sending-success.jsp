@@ -8,11 +8,11 @@
 </head>
 <body>
 	<h1>Message sent!</h1>
-	<form action="message-writer.jsp" method="get">
+	<form action="message-writer.jsp" method="post">
 		<input type="submit" value="Compose another email"/>
 	</form>
 	
-	<form action="Logout" method="get">
+	<form action="${pageContext.request.contextPath}/Logout" method="post">
 		<input type="submit" value="Logout"/>
 	</form>
 </body>

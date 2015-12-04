@@ -15,7 +15,7 @@
 		if (password == null) password = "";
 	%>
 
-	<form action="LoginController" method="get">
+	<form action="${pageContext.request.contextPath}/LoginController" method="post">
 		<input name="username" placeholder="asd@xyz.com"
 			value=<%= username %> ><br> <input
 			type="password" name="password" placeholder="password"
