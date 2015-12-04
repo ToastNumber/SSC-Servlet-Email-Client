@@ -14,7 +14,7 @@
 		<input type="submit" value="Send">
 	</form>
 	
-	<form action="Logout" method="get">
+	<form action="Logout" method="post">
 		<input type="submit" value="Logout"/>
 	</form>
 </body>
