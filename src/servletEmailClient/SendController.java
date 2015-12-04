@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class SendController
+ * Servlet controller which handles a user login attempt.
+ * @author Kelsey McKenna
  */
 @WebServlet("/SendController")
 public class SendController extends HttpServlet {
@@ -32,19 +33,25 @@ public class SendController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Get the current session
 		HttpSession session = request.getSession(true);
 
+		// Set the content type for printing error messages etc.
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
+		// If the user's credentials are no longer stored
 		if (session.isNew()) {
 			out.println("Session timeout.");
+			// Go back to the home page
 			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
 			rd.include(request, response);
 		} else {
+			// Since the session isn't new, we can get username and password
 			final String username = (String) session.getAttribute("username");
 			final String password = (String) session.getAttribute("password");
 
+			// Get the email details
 			String to = request.getParameter("to");
 			String subject = request.getParameter("subject");
 			String content = request.getParameter("content");
@@ -59,11 +66,12 @@ public class SendController extends HttpServlet {
 					// Then send it
 					m.sendEmail(message, username, password);
 
+					// Show a notification that the email was send correctly.
 					RequestDispatcher rd = request.getRequestDispatcher("/sending-success.jsp");
 					rd.include(request, response);
 				} catch (Exception e) {
+					//Print an error message and stay on the current page
 					out.println("Error sending message. Please try again.");
-					
 					RequestDispatcher rd = request.getRequestDispatcher("/message-writer.jsp");
 					rd.include(request, response);
 				}

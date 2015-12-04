@@ -8,6 +8,8 @@
 </head>
 <body>
 	<%
+		// Try to get the last pieces of information entered.
+		// If they are null, then just set them to be empty strings.
 		String username = request.getParameter("username");
 		if (username == null) username = "";
 		

@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Controller
+ * Servlet controller which handles a user login attempt.
+ * @author Kelsey McKenna
  */
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
@@ -31,28 +32,33 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Get the user name and password specified by the user
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
 		Model m = new Model();
-		boolean loginSuccessful = m.setupSession(username, password);
 
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
+
+		// Try to login with the user name and password
+		boolean loginSuccessful = m.setupSession(username, password);
+
 		if (loginSuccessful) {
 			// Get the session
 			HttpSession session = request.getSession(true);
 			// Set the timeout to 5 minutes
 			session.setMaxInactiveInterval(5 * 60);
-			
+
 			// Then set the user name and password for the session
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
-			
+
+			// Set the next page as the message-writer page
 			RequestDispatcher dispatcher = request.getRequestDispatcher("message-writer.jsp");
 			dispatcher.include(request, response);
 		} else {
+			// Print an error message and show the home page.
 			out.println("User name or password incorrect. Please try again.");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 			dispatcher.include(request, response);

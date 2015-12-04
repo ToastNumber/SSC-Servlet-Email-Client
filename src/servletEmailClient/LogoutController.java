@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Logout
+ *Servlet controller which handles a user login attempt.
+ *@author Kelsey McKenna
  */
 @WebServlet("/Logout")
 public class LogoutController extends HttpServlet {
@@ -28,11 +29,14 @@ public class LogoutController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get the current session, but don't create a new one if there isn't one.
 		HttpSession session = request.getSession(false);
 		if (session != null) {
+			// Wipe the session
 			session.invalidate();
 		}
 		
+		// Go back to the home page
 		RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
 		rd.forward(request, response);
 	}

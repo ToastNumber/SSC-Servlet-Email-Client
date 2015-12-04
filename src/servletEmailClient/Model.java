@@ -10,6 +10,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * The underlying model for email sessions.
+ * 
+ * @author Kelsey McKenna
+ *
+ */
 public class Model {
 	private Session session;
 	private Properties props;
@@ -20,6 +26,10 @@ public class Model {
 		this.props = getSMTPProperties();
 	}
 
+	/**
+	 * @return the appropriate SMTP properties for the particular email client,
+	 *         port no., etc.
+	 */
 	private Properties getSMTPProperties() {
 		Properties props = System.getProperties();
 		props.put("mail.smtp.auth", "true");
@@ -30,6 +40,16 @@ public class Model {
 		return props;
 	}
 
+	/**
+	 * Try to set up an email session for the user with the username and
+	 * password
+	 * 
+	 * @param username
+	 *            the username for the email account
+	 * @param password
+	 *            the password for the email account
+	 * @return true if the user can be logged in; false otherwise
+	 */
 	public boolean setupSession(String username, String password) {
 		this.session = Session.getInstance(props);
 
@@ -45,23 +65,20 @@ public class Model {
 	}
 
 	/**
-	 * @param session
 	 * @param from
 	 *            the email address which is sending the email
 	 * @param to
 	 *            a comma-separated list of email addresses to which to send the
 	 *            email
-	 * @param cc
-	 *            a comma-separated list of email addresses for the cc field.
 	 * @param subject
 	 *            the subject for the email
 	 * @param content
 	 *            the text content of the email
-	 * @param attachments
-	 *            the attachments for the email
 	 * @return a MIME message constructed using the given information
 	 * @throws AddressException
+	 *             if the given addresses could not be converted
 	 * @throws MessagingException
+	 *             if the message could not be constructed
 	 */
 	public MimeMessage constructMimeMessage(String from, String to, String subject, String content)
 			throws AddressException, MessagingException {
@@ -80,7 +97,7 @@ public class Model {
 
 		return message;
 	}
-	
+
 	/**
 	 * Send the specified message from the email account for this Sender.
 	 * 
@@ -88,7 +105,13 @@ public class Model {
 	 * 
 	 * @param message
 	 *            the message to be sent
+	 * @param username
+	 *            the username for the email account
+	 * @param password
+	 *            the password for the email account
+	 * 
 	 * @throws MessagingException
+	 *             if the email could not be sent
 	 */
 	public void sendEmail(MimeMessage message, String username, String password) throws MessagingException {
 		Transport tr = session.getTransport("smtp");
@@ -97,5 +120,4 @@ public class Model {
 		tr.close();
 	}
 
-	
 }
